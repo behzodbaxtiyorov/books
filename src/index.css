@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Rotterburg Display Font;
+  src: url(./assets/fonts/rotterburg.otf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+.container-box {
+  width: 100%;
+  max-width: 1300px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.active {
+  border-bottom: 3px solid #c9ac8c;
+}
+
+
+.ant-dropdown-menu-item:last-child:hover{
+  background-color: rgb(247, 126, 126) !important;
+  color: white !important;
+}
+
+
+.ant-btn-primary{
+  background-color: #c9ac8c !important;
+}
+
+
+.ant-btn{
+  padding:7px 16px !important;
+  width: fit-content !important;
+  height: fit-content !important;
+}
