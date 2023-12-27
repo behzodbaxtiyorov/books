@@ -1,10 +1,13 @@
 /* eslint-disable no-nonoctal-decimal-escape */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import reg_image from "../../../assets/images/register.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputMask from "react-input-mask";
+import useUsersApi from "../../../service/api/users";
+import { useDispatch, useSelector } from "react-redux";
+import { endLoading, startLoading } from "../../../store/loader";
 
 type FieldType = {
   email?: string;
@@ -15,13 +18,39 @@ type FieldType = {
 };
 
 const SignUp = () => {
+  const {register} = useUsersApi();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const colorList = ["#f56a00", "#005823", "#000000", "#fdgyyc", "#00a2ae"];
+
+  const {isLoading} = useSelector((state: any) => state);
   const onFinish = (values: any) => {
-    console.log("Success:", values);
+    dispatch(startLoading(true));
+     register(values).then((data) => {
+      if (data) {
+        message.success("Siz muvaffaqiyatli tizimga kirdingiz!");
+        dispatch (endLoading(false));
+        console.log(data);
+        localStorage.setItem("avatar theme", colorList[Math.floor(Math.random() * colorList.length)-1])
+
+        localStorage.setItem("token",data?.data.token);
+        localStorage.setItem("first_name",data?.data?.user?.first_name);
+        localStorage.setItem("last_name",data?.data?.user?.last_name);
+        localStorage.setItem("id",data?.data?.user?.id);
+        return navigate("/")
+      }
+      console.log(data);
+      
+     })
+     .catch((err: any) => {
+      if(err){
+        dispatch (endLoading(false));
+      message.error(err?.response?.data?.message);
+      }
+     });
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
+  
 
   return (
     <div className="flex items-center h-screen w-full">
@@ -34,11 +63,11 @@ const SignUp = () => {
       </div>
       <div className="flex-1 h-full w-[50%] flex items-center justify-center  ">
         <div className="flex flex-col  m-auto mt-auto mb-auto max-w-[350px]">
-          <h1 className="text-[36px] font-bold mb-[10px]">Sign up</h1>
+          <h1 className="text-[36px] font-bold mb-[10px]">Registratsiya</h1>
           <p className="p-0 text-[14px] font-normal mb-[30px]">
-            Do not you have an account?{" "}
+            Oldin royhatdan otganmisiz?{" "}
             <Link className="text-[#549FF9] underline" to={"/sign-in"}>
-              Sign in
+              Mavjud akkaunga kirish
             </Link>
           </p>
           <Form
@@ -46,29 +75,29 @@ const SignUp = () => {
             name="basic"
             initialValues={{ remember: true }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
+            
             autoComplete="off"
             layout="vertical"
           >
             <Form.Item<FieldType>
               name="first_name"
               rules={[
-                { required: true, message: "Please input your first name!" },
+                { required: true, message: "Iltimos ismingizni kiriting!" },
               ]}
             >
-              <Input size="large" placeholder="Enter your first name" />
+              <Input size="large" placeholder="Ismingizni kiriting" />
             </Form.Item>
             <Form.Item<FieldType>
               name="last_name"
               rules={[
-                { required: true, message: "Please input your last name!" },
+                { required: true, message: "Iltimos familyangizni kiriting!" },
               ]}
             >
-              <Input size="large" placeholder="Enter your last name" />
+              <Input size="large" placeholder="Familyangizni kiriting" />
             </Form.Item>
             <Form.Item<FieldType>
               name="phone"
-              rules={[{ required: true, message: "Please input your phone!" }]}
+              rules={[{ required: true, message: "Iltimos telefon raqamingizni kiriting!" }]}
             >
               <InputMask
                 mask="+\9\9\8\ (99) 999-99-99"
@@ -79,7 +108,7 @@ const SignUp = () => {
                 // onChange ={(e) => setPhoneNumber(e.target.value)}
                 type="tel"
               >
-                <Input size="large" placeholder="Enter your phone" />
+                <Input size="large" placeholder="Telefon raqamingizni kiriting" />
               </InputMask>
             </Form.Item>
 
@@ -89,25 +118,25 @@ const SignUp = () => {
                 {
                   type: "email",
                   required: true,
-                  message: "Please input your email!",
+                  message: "Iltimos emailingizni kiriting!",
                 },
               ]}
             >
-              <Input size="large" placeholder="Enter your email" />
+              <Input size="large" placeholder="Emailingizni kiriting" />
             </Form.Item>
 
             <Form.Item<FieldType>
               name="password"
               rules={[
-                { required: true, message: "Please input your password!" },
+                { required: true, message: "Iltimos parollingizni kiriting" },
               ]}
             >
-              <Input.Password size="large" placeholder="Enter your passsword" />
+              <Input.Password size="large" placeholder="Parolingizni kiriting" />
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Sign up
+              <Button loading={isLoading} type="primary" htmlType="submit">
+                Registratsiya
               </Button>
             </Form.Item>
           </Form>

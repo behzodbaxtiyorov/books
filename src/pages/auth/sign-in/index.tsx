@@ -1,24 +1,51 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button,  Form, Input } from 'antd';
+import { Button,  Form, Input, message } from 'antd';
 import log_image from "../../../assets/images/log.svg"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useUsersApi from '../../../service/api/users';
+import { useDispatch, useSelector } from 'react-redux';
+import { endLoading, startLoading } from '../../../store/loader';
 
 
 type FieldType = {
-  username?: string;
+  
   password?: string;
   email?: string;
 };
 
 const SignIn = () => {
+    const {login} = useUsersApi();
+    const navigate = useNavigate();
+    const {isLoading} = useSelector((state: any) => state);
+    const dispatch = useDispatch();
+    const colorList = ["#f56a00", "#005823", "#000000", "#fdgyyc", "#00a2ae"];
+  
 
   const onFinish = (values: any) => {
-    console.log('Success:', values);
+    dispatch(startLoading(true));
+    
+    
+     login(values).then((data) => {
+      if (data) {
+        message.success("Siz muvaffaqiyatli tizimga kirdingiz!");
+        dispatch (endLoading(false));
+        localStorage.setItem("avatar theme", colorList[Math.floor(Math.random() * colorList.length)-1])
+        localStorage.setItem("token",data?.data.token);
+        localStorage.setItem("first_name",data?.data?.user?.first_name);
+        localStorage.setItem("last_name",data?.data?.user?.last_name);
+        localStorage.setItem("id",data?.data?.user?.id);
+        return navigate("/")
+      }
+     })
+     .catch((err: any) => {
+      if(err){
+        dispatch (endLoading(false));
+      message.error(err?.response?.data?.message);
+      }
+     });
   };
   
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+ 
   
 
   return (
@@ -28,14 +55,13 @@ const SignIn = () => {
       </div>
       <div className="flex-1 h-full w-[50%] flex items-center justify-center  ">
         <div className='flex flex-col  m-auto mt-auto mb-auto max-w-[350px]'>
-        <h1 className='text-[36px] font-bold mb-[10px]'>Sign in</h1>
-        <p className='p-0 text-[14px] font-normal mb-[30px]'>Do not you have an account?  {" "} <Link className='text-[#549FF9] underline' to={"/sign-up"}>Sign up</Link></p>
+        <h1 className='text-[36px] font-bold mb-[10px]'>Kirish</h1>
+        <p className='p-0 text-[14px] font-normal mb-[30px]'>Akkountingiz yoqmi?  {" "} <Link className='text-[#549FF9] underline' to={"/sign-up"}>Yangi akkaunt ochish</Link></p>
       <Form
       className=' w-full'
     name="basic"
     initialValues={{ remember: true }}
     onFinish={onFinish}
-    onFinishFailed={onFinishFailed}
     autoComplete="off"
     layout='vertical'
   >
@@ -44,21 +70,21 @@ const SignIn = () => {
       name="email"
       rules={[{ type:"email", required: true, message: '"Email"da xatolik mavjud!' }]}
     >
-      <Input size='large' placeholder='Enter your username' />
+      <Input   size='large' placeholder='Emailingizni kiriting' />
     </Form.Item>
 
     <Form.Item<FieldType>
       
       name="password"
-      rules={[{ required: true, message: 'Please input your password!' }]}
+      rules={[{ required: true, message: 'Iltimos parolni kiriting!' }]}
     >
-      <Input.Password size='large' placeholder='Enter your passsword' />
+      <Input.Password  size='large' placeholder='Parollingizni kiriting' />
     </Form.Item>
 
     
     <Form.Item >
-      <Button type="primary" htmlType="submit">
-        Sign in
+      <Button loading={isLoading} type="primary" htmlType="submit">
+        Kirish
       </Button>
     </Form.Item>
   </Form>
