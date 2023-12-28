@@ -7,7 +7,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   
-  const confirm = (e: any) => {
+  const confirm = () => {
     localStorage.clear();
     window.location.reload();
     message.info('Siz tizimdan chiqdingiz');
