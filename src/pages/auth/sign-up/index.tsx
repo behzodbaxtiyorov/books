@@ -21,7 +21,8 @@ const SignUp = () => {
   const {register} = useUsersApi();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const colorList = ["#f56a00", "#005823", "#000000", "#fdgyyc", "#00a2ae"];
+  
+  const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
 
   const {isLoading} = useSelector((state: any) => state);
   const onFinish = (values: any) => {
@@ -31,7 +32,7 @@ const SignUp = () => {
         message.success("Siz muvaffaqiyatli tizimga kirdingiz!");
         dispatch (endLoading(false));
         console.log(data);
-        localStorage.setItem("avatar theme", colorList[Math.floor(Math.random() * colorList.length)-1])
+        localStorage.setItem("avatar_theme", colorList[Math.floor(Math.random() * colorList.length)-1])
 
         localStorage.setItem("token",data?.data.token);
         localStorage.setItem("first_name",data?.data?.user?.first_name);
