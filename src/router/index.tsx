@@ -8,6 +8,7 @@ import SignIn from "../pages/auth/sign-in";
 import SignUP from "../pages/auth/sign-up";
 import GenericComp from "../components/generic";
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
         element: <BookDetails />,
       },
       {
-        path: "/account",
+        path: "/account/:id",
         element: <Account />,
       },
       {
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
         path: "/maqolalar",
         element: <GenericComp />,
       },
+      
     ],
   },
   {

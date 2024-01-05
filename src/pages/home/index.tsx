@@ -8,9 +8,9 @@ const Home = () => {
   return <div className="container-box relative">
     <div className="mt-[54px] rounded-[21px] overflow-hidden">
         <CarouselUI />
-        <SearchBox />
         
       </div>
+        <SearchBox />
   </div>;
 };
 

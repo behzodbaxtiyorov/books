@@ -2,11 +2,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-constant-condition */
-import { Button, Form, Image, Input, Tabs } from "antd";
+import { Button, Form, Image, Input, Tabs, message } from "antd";
 import type { TabsProps } from "antd";
 import { useEffect, useState } from "react";
 import useUsersApi from "../../service/api/users";
 import InputMask from "react-input-mask";
+import { useDispatch, useSelector } from "react-redux";
+import { endLoading, startLoading } from "../../store/loader";
+import LoaderUI from "../../components/loader";
+import { Navigate,  useParams } from "react-router-dom";
 
 type FieldType = {
   email?: string;
@@ -18,29 +22,47 @@ type FieldType = {
 };
 
 const Account = () => {
-  const { getOneUserById, updateOneUserById } = useUsersApi();
-  const [me, setMe]: any = useState();
+  const { getOneUserById } = useUsersApi();
+  const [me, setMe]: any = useState({});
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state: any) => state);
+  const {id} = useParams();
+  
+  
+  
   useEffect(() => {
-    getOneUserById(localStorage.getItem("id")).then((data) => setMe(data.data));
-  }, []);
+    dispatch(startLoading(true));
+    getOneUserById(localStorage.getItem('id'))
+    .then((data) => {
+      setMe(data.data);
+      data && dispatch(endLoading(false));
+    }).catch((err: any) =>{
+      dispatch(endLoading(false));
+      message.error(err);
+    });
+    
+  }, [id]);
 
-  const formData = new FormData();
+  
 
-  const onFinish = (values: any) => {
-    for (const key in values) {
-      formData.append(key, values[key]);
-    }
-       formData.append("image", "https://cdn.bio.link/uploads/thumbnails/2023-09-17/BQBh8bGFFShDbye8nwwIk7NavnvvKSp3.png")
+  // const onFinish = (values: any) => {
+  //   const formData = new FormData();
+  //   for (const key in values) {
+  //     formData.append(key, values[key]);
+  //   }
+  //      formData.append("image", "https://cdn.bio.link/uploads/thumbnails/2023-09-17/BQBh8bGFFShDbye8nwwIk7NavnvvKSp3.png")
 
-    updateOneUserById(
-       {...formData},
-      me?.id
-    ).then((data) => console.log(data?.data));
-  };
+  //   updateOneUserById(
+  //      {...formData},
+  //     me?.id
+  //   ).then((data) => console.log(data?.data));
+  // };
+
+
   const items: TabsProps["items"] = [
     {
       key: "1",
-      label: "Profilim",
+  label: me?.id === Number(id) ? "Profilim" : "Profil",
       children: (
         <div className="flex items-center gap-[30px] bg-slate-100 py-4 px-4 rounded-[10px]">
           <div
@@ -68,9 +90,9 @@ const Account = () => {
       ),
     },
     {
-      key: "2",
-      label: "Sozlamalar",
-      children: (
+  key: me?.id === Number(id) ? "2": "",
+      label: me?.id === Number(id) ? "Sozlamalar" : "",
+      children: me?.id === Number(id) && (
         <div>
           <div className="flex  gap-5 flex-col">
             <h1 className="text-[20px] font-semibold text-red-500">
@@ -80,7 +102,7 @@ const Account = () => {
               className=" w-full"
               name="basic"
               initialValues={{ remember: true }}
-              onFinish={onFinish}
+              // onFinish={onFinish}
               autoComplete="off"
               layout="vertical"
             >
@@ -203,8 +225,18 @@ const Account = () => {
   const onChange = (key: string) => {
     console.log(key);
   };
+
+
+
+  if(!localStorage.getItem("token")){
+    return <Navigate to={"/"} />;
+  }
+
   return (
     <div>
+      {isLoading ? (
+      <LoaderUI />
+      ) : (
       <div className="w-full max-w-[900px] mx-auto mt-[50px]">
         <div>
           <Tabs
@@ -215,6 +247,7 @@ const Account = () => {
           />
         </div>
       </div>
+)};
     </div>
   );
 };

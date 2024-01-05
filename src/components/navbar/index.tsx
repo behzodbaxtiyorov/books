@@ -11,6 +11,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+ 
 
   const confirm = async () => {
     localStorage.clear();
@@ -24,7 +25,8 @@ const Navbar = () => {
     {
       label: (
         <Link
-          to={"/account"}
+          to={`/account/${localStorage.getItem("id")}`}
+          
           className="flex items-center gap-[6px] px-[8px] py-[4px]"
         >
           <UserOutlined />
@@ -35,13 +37,13 @@ const Navbar = () => {
     },
     {
       label: (
-        <Link
-          to={"/account"}
+        <div
+          
           className="flex items-center gap-[6px] px-[8px] py-[4px]"
         >
           <SettingOutlined />
           <p className="text-[15px] p-0">Sozlamalar</p>
-        </Link>
+        </div>
       ),
       key: "1",
     },
@@ -66,7 +68,7 @@ const Navbar = () => {
 
   return (
     <div className="container-box flex items-center justify-between">
-      <h1 className="text-[26px] font-semibold select-none  font-rotterburg text-[#C9AC8C]">
+      <h1 onClick={() => navigate("/")} className="text-[26px] font-semibold select-none  font-rotterburg text-[#C9AC8C] cursor-pointer">
         Badiiyat
       </h1>
       <div className="flex items-center gap-[43px]">
