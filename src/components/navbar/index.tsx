@@ -8,6 +8,7 @@ import {
 import type { MenuProps } from "antd";
 import { Avatar, Button, Dropdown, Popconfirm, message } from "antd";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import lng from "../../assets/icons/lng.svg"
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -97,6 +98,8 @@ const Navbar = () => {
           Maqolalar
         </NavLink>
       </div>
+      <div>
+      <img className="w-[40px] rounded-[6px] p-[5px] hover:bg-[rgb(200,172,140)]" src={lng} alt="" />
       {localStorage.getItem("token") ? (
         <div>
           <Dropdown
@@ -125,6 +128,7 @@ const Navbar = () => {
           </Button>
         </div>
       )}
+    </div>
     </div>
   );
 };
