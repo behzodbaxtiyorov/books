@@ -7,6 +7,7 @@ import Account from "../pages/account";
 import SignIn from "../pages/auth/sign-in";
 import SignUP from "../pages/auth/sign-up";
 import GenericComp from "../components/generic";
+import Authors from "../pages/authors";
 
 
 const router = createBrowserRouter([
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/authors",
-        element: <GenericComp />,
+        element: <Authors />,
       },
       {
         path: "/books",
