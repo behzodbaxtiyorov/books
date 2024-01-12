@@ -8,7 +8,6 @@ import {
 import type { MenuProps } from "antd";
 import {
   Avatar,
-  Button,
   Dropdown,
   Modal,
   Popconfirm,
@@ -169,7 +168,7 @@ const Navbar = () => {
               alt=""
             />
           )}
-          {localStorage.getItem("token") ? (
+          
             <div>
               <Dropdown
                 menu={{ items }}
@@ -189,14 +188,7 @@ const Navbar = () => {
                 </div>
               </Dropdown>
             </div>
-          ) : (
-            <div className="flex items-center gap-[10px]">
-              <Button onClick={() => navigate("Sign-in")}>Kirish</Button>
-              <Button onClick={() => navigate("Sign-up")} type="primary">
-                Registratsiya
-              </Button>
-            </div>
-          )}
+          
         </div>
       </div>
     </>
