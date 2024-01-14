@@ -21,6 +21,7 @@ const Tabs = () => {
 
   return (
     <div className="mb-[100px] pb-[100px]">
+      <h1 className="text-center text-[28px] font-rotterburg text-[#c9ac8c] ">Asosiy kategoriyalar</h1>
        <div className="mt-[150px] flex items-center justify-center">
          <div className="mb-4">
           <ul 
@@ -75,4 +76,4 @@ const Tabs = () => {
   )
 }
 
-export default Tabs
+export default Tabs;
