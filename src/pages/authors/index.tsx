@@ -38,21 +38,20 @@ const Authors = () => {
       <SearchBox searchFunc={searchAuthors}  />
       </div>
       <div className="flex flex-wrap items-center justify-center gap-[40px] mt-[50px]">
-      {data.length > 0 ? (
-          data?.map((author:any) => (
+      {data ? (
+          data?.map((author: any) => (
             <AuthorCard
-             id={author?.id}
+              id={author?.id}
               first_name={author?.first_name}
-               last_name={author?.last_name}
-                data_brith={author?.data_brith}
-                 data_death={author?.data_death}
-                  image={author?.image}
-                   />
+              last_name={author?.last_name}
+              data_brith={author?.date_birth}
+              data_death={author?.date_death}
+              image={author?.image}
+            />
           ))
         ) : (
           <LoaderUI />
-        )
-      }
+        )}
       </div>
     </div>
   )

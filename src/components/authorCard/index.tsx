@@ -12,7 +12,7 @@ const AuthorCard = (props: AuthorCardProps) => {
     <div className="w-[190px] p-[10px] rounded-lg shadow-md cursor-pointer hover:shadow-lg border-t-[7px] duration-500">
         <div className="w-full h-[160px] bg-gray-400 object-cover rounded-lg overflow-hidden">
            {props?.image?.length ? (
-            <img className="w-full h-full" src={`https://literature-18wr.orender.com/api/image/${props?.image}`} alt="image" />
+            <img className="w-full h-full" src={`https://literature-18wr.onrender.com/api/image/${props?.image}`} alt="image" />
            ) : (
             <img className="w-full h-full object-cover" src="https://removal.ai/wp-content/uploads/2021/02/no-img.png" alt="image" />
            )
