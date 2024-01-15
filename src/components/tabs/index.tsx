@@ -21,8 +21,8 @@ const Tabs = () => {
 
   return (
     <div className="mb-[100px] pb-[100px]">
-      <h1 className="text-center text-[28px] font-rotterburg text-[#c9ac8c] ">Asosiy kategoriyalar</h1>
-       <div className="mt-[150px] flex items-center justify-center">
+      <h1 className="text-center text-[32px] font-semibold font-rotterburg text-[#c9ac8c] mt-[50px] ">Asosiy kategoriyalar</h1>
+       <div className="mt-[50px] flex items-center justify-center">
          <div className="mb-4">
           <ul 
             className="flex flex-wrap -mb-px text-sm font-medium text-center" 

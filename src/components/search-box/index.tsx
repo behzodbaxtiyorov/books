@@ -1,9 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SearchOutlined } from "@ant-design/icons";
-import { Button, Input } from "antd";
+import { Button,  Input } from "antd";
 import { useTranslation } from "react-i18next";
 
-const SearchBox = () => {
+
+interface SearchBoxProps {
+  searchFunc?: any;
+}
+
+const SearchBox = (props: SearchBoxProps ) => {
   const { t } = useTranslation();
+  
   return (
     <div
       
@@ -13,11 +22,16 @@ const SearchBox = () => {
         {t("searchsection.title")}
       </h2>
       <div className="w-full flex items-center gap-[14px] mt-[13px]">
-        <Input size="large" placeholder={t("searchsection.inputPl")} />
-        <Button type="primary" icon={<SearchOutlined />}>
+        
+      
+      
+        <Input size="large" onChange={(e) => props?.searchFunc(e.target.value)} placeholder={t("searchsection.inputPl")} />
+    
+        <Button htmlType="submit" type="primary" icon={<SearchOutlined />}>
           {" "}
           {t("searchsection.btn")}
         </Button>
+        
       </div>
     </div>
   );
