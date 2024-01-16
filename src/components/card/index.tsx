@@ -37,9 +37,9 @@ const BookCard = (props: BookCardProps) => {
         )}
       </div>
       <h1 className="font-crimson text-[#C9AC8C] text-[22px] w-full break-words">
-        {props?.title?.length > 12
-          ? props?.title?.slice(0, 12) + "..."
-          : props?.title}
+      {props?.title?.length > 12
+    ? props?.title?.slice(0, 12) + "..."
+    : props?.title}
       </h1>
       <article className="text-[rgba(33,33,33,0.6)] font-crimson text-[18px]">
         {props?.name}

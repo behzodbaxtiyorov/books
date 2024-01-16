@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 interface AuthorCardProps {
     id?: string;
     data_brith?: string;
@@ -8,8 +10,9 @@ interface AuthorCardProps {
 }
 
 const AuthorCard = (props: AuthorCardProps) => {
+  const navigate = useNavigate();
   return (
-    <div className="w-[190px] p-[10px] rounded-lg shadow-md cursor-pointer hover:shadow-lg border-t-[7px] duration-500">
+    <div onClick={() => navigate(`/author-details/${props?.id}`)} className="w-[190px] p-[10px] rounded-lg shadow-md cursor-pointer hover:shadow-lg border-t-[7px] duration-500">
         <div className="w-full h-[160px] bg-gray-400 object-cover rounded-lg overflow-hidden">
            {props?.image?.length ? (
             <img className="w-full h-full" src={`https://literature-18wr.onrender.com/api/image/${props?.image}`} alt="image" />

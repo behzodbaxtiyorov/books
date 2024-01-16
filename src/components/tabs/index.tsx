@@ -8,13 +8,13 @@ import BookCard from "../card";
 
 const Tabs = () => {
     const [tabs, setTabs]: any = useState([]);
-    const [activeTab, setActivTab]: any = useState();
+    const [activeTab, setActiveTab]: any = useState();
     const {getAllCategories} = useCategoriesApi();
 
     useEffect(() => {
         getAllCategories().then((res) => {
             setTabs(res.data)
-            setActivTab(res.data?.[0].name)
+            setActiveTab(res.data?.[0].name)
         })
     }, [])
     
@@ -36,7 +36,7 @@ const Tabs = () => {
                 className="me-2" 
                 role="presentation" 
                 onClick={() => 
-                    setActivTab(category?.name)
+                    setActiveTab(category?.name)
                 }>
                 <button 
                   className="inline-block font-crimson text-[20px] p-4 duration-100 hover:bg-slate-100"
